@@ -23,7 +23,6 @@ clean:
 fclean: clean
 	rm -rf /home/$(USER)/data/mariadb
 	rm -rf /home/$(USER)/data/wordpress
-	rm -rf /srcs/requirements/worpress
 
 re: fclean all
 

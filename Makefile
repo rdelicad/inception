@@ -17,12 +17,13 @@ rebuild: down
 	$(COMPOSE) -f $(DC_FILE) up -d --build
 
 clean:
-	$(COMPOSE) -f $(DC_FILE) down
+	$(COMPOSE) -f $(DC_FILE) down -v --rmi all --remove-orphans
 	docker system prune -af
 
 fclean: clean
 	rm -rf /home/$(USER)/data/mariadb
 	rm -rf /home/$(USER)/data/wordpress
+	rm -rf /srcs/requirements/worpress
 
 re: fclean all
 

@@ -9,9 +9,12 @@ RUN	apt-get update && \
 
 # Copy file configuration NGINX
 COPY conf/nginx.conf /etc/nginx/nginx.conf
+COPY tools/nginx_setup.sh /usr/local/bin/nginx_setup.sh
+
+RUN chmod +x /usr/local/bin/nginx_setup.sh
 
 # Exponer port 443
 EXPOSE 443
 
 # Command default init NGINX
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["nginx_setup.sh"]

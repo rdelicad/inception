@@ -13,6 +13,9 @@ up:
 down:
 	$(COMPOSE) -f $(DC_FILE) down
 
+rebuild: down
+	$(COMPOSE) -f $(DC_FILE) up -d --build
+
 clean:
 	$(COMPOSE) -f $(DC_FILE) down
 	docker system prune -af
@@ -35,5 +38,5 @@ exec_mariadb:
 logs:
 	$(COMPOSE) -f $(DC_FILE) logs -f
 
-.PHONY: all up down clean fclean re exec_nginx exec_wordpress exec_mariadb logs
+.PHONY: all up down rebuild clean fclean re exec_nginx exec_wordpress exec_mariadb logs
 

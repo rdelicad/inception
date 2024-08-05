@@ -1,3 +1,3 @@
 FROM wordpress:php7.4-fpm-alpine
 
-COPY ./wp-config.php /var/www/html/
+COPY ./conf/wp-config.php /var/www/html/

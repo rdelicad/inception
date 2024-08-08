@@ -10,39 +10,50 @@ services:
       - ./requirements/nginx/conf:/etc/nginx/conf.d
       - ./requirements/nginx/ssl:/etc/nginx/ssl
     networks:
-      - my_network
+      - webnet
+    restart: always
 
   wordpress:
     build:
       context: ./requirements/wordpress
     container_name: wordpress_container
     environment:
-      WORDPRESS_DB_HOST: db
-      WORDPRESS_DB_USER: wordpress
-      WORDPRESS_DB_PASSWORD: wordpress
-      WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_DB_NAME=${DB_NAME}
+      WORDPRESS_DB_USER=${DB_USER}
+      WORDPRESS_DB_PASSWORD=${DB_USER_PASS}
+      WORDPRESS_DB_HOST=mariadb
+      WORDPRESS_URL=${WP_URL}
+      WORDPRESS_TITLE=${WP_TITLE}
+      WORDPRESS_ADMIN=${WP_ADMIN}
+      WORDPRESS_ADMIN_PASSWORD=${WP_ADMIN_PASS}
+      WORDPRESS_ADMIN_EMAIL=${WP_ADMIN_EMAIL}
+      WORDPRESS_USER=${WP_USER}
+      WORDPRESS_USER_PASSWORD=${WP_USER_PASS}
+      WORDPRESS_USER_EMAIL=${WP_USER_EMAIL}
     volumes:
       - ./requirements/wordpress:/var/www/html
     networks:
       - my_network
 
-  db:
+  mariadb:
     build:
       context: ./requirements/mariadb
     container_name: db_container
     environment:
-      MYSQL_ROOT_PASSWORD: rootpassword
-      MYSQL_DATABASE: wordpress
-      MYSQL_USER: wordpress
-      MYSQL_PASSWORD: wordpress
+      MYSQL_ROOT_PASSWORD=${DB_ROOT_PASS}
+      MYSQL_DATABASE=${DB_NAME}
+      MYSQL_USER=${DB_USER}
+      MYSQL_PASSWORD=${DB_USER_PASS}
     volumes:
       - db_data:/var/lib/mysql
     networks:
       - my_network
 
 volumes:
+  wordpress_data:
   db_data:
 
 networks:
-  my_network:
+  webnet:
+    driver: bridge
 

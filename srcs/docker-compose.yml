@@ -6,10 +6,13 @@ services:
     ports:
       - "443:443"
     volumes:
-      - ./requirements/nginx/conf:/etc/nginx/conf.d
-      - ./requirements/nginx/ssl:/etc/nginx/ssl
+      - wordpress_vol:/var/www/html
     networks:
       - webnet
+    environment:
+      - .env
+    depends_on:
+      - wordpress
     restart: always
 
   wordpress:
@@ -17,20 +20,11 @@ services:
       context: ./requirements/wordpress
     container_name: wordpress_container
     environment:
-      WORDPRESS_DB_NAME: ${DB_NAME}
-      WORDPRESS_DB_USER: ${DB_USER}
-      WORDPRESS_DB_PASSWORD: ${DB_USER_PASS}
-      WORDPRESS_DB_HOST: mariadb
-      WORDPRESS_URL: ${WP_URL}
-      WORDPRESS_TITLE: ${WP_TITLE}
-      WORDPRESS_ADMIN: ${WP_ADMIN}
-      WORDPRESS_ADMIN_PASSWORD: ${WP_ADMIN_PASS}
-      WORDPRESS_ADMIN_EMAIL: ${WP_ADMIN_EMAIL}
-      WORDPRESS_USER: ${WP_USER}
-      WORDPRESS_USER_PASSWORD: ${WP_USER_PASS}
-      WORDPRESS_USER_EMAIL: ${WP_USER_EMAIL}
+      - .env
     volumes:
-      - wordpress_data:/var/www/html
+      - wordpress_vol:/var/www/html
+    depends_on:
+      - mariadb
     networks:
       - webnet
 
@@ -39,18 +33,26 @@ services:
       context: ./requirements/mariadb
     container_name: db_container
     environment:
-      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASS}
-      MYSQL_DATABASE: ${DB_NAME}
-      MYSQL_USER: ${DB_USER}
-      MYSQL_PASSWORD: ${DB_USER_PASS}
+      - .env
     volumes:
-      - db_data:/var/lib/mysql
+      - mariadb_vol:/var/lib/mysql
     networks:
       - webnet
+    restart: always
 
 volumes:
-  wordpress_data:
-  db_data:
+  wordpress_vol:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/$(USER)/data/wordpress
+  mariadb_vol:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/$(USER)/data/mariadb
 
 networks:
   webnet:

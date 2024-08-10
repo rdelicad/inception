@@ -1,6 +1,6 @@
 SHELL:= /bin/bash
 
-COMPOSE = docker compose
+COMPOSE = docker-compose
 DC_FILE = srcs/docker-compose.yml
 
 all: up
@@ -27,13 +27,13 @@ fclean: clean
 re: fclean all
 
 exec_nginx:
-	docker exec -it nginx-container /bin/bash
+	docker exec -it nginx_container /bin/bash
 
 exec_wordpress:
-	docker exec -it wordpress-container /bin/bash
+	docker exec -it wordpress_container /bin/bash
 
 exec_mariadb:
-	docker exec -it mariadb-container /bin/bash
+	docker exec -it mariadb_container /bin/bash
 
 logs:
 	$(COMPOSE) -f $(DC_FILE) logs -f

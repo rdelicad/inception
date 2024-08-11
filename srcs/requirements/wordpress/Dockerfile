@@ -2,8 +2,9 @@
 FROM php:7.4-fpm
 
 # Install dependencies and PHP extensions
-RUN apt-get update && apt-get upgrade -y && \
-    apt-get install -y \
+RUN set -eux; \
+    apt-get update; \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
     libpng-dev \
     libjpeg-dev \
     libfreetype6-dev \
@@ -16,6 +17,8 @@ RUN apt-get update && apt-get upgrade -y && \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     # Install required PHP extensions
     && docker-php-ext-install gd intl mysqli zip
+
+RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Set the working directory
 WORKDIR /var/www/html

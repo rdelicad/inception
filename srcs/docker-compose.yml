@@ -39,6 +39,8 @@ services:
     networks:
       - webnet
     restart: always
+    expose:
+      - "3306"
 
 volumes:
   wordpress_vol:

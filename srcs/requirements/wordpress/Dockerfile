@@ -13,22 +13,17 @@ RUN set -eux; \
     && apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-# Set up WordPress directory
-RUN mkdir -p /var/www/html && \
-    chown -R www-data:www-data /var/www/html
-
 # Copy PHP-FPM configuration
 COPY conf/www.conf /etc/php/7.4/fpm/pool.d/www.conf
 
-# Copy WordPress configuration file
-COPY conf/wp-config.php /var/www/html/wp-config.php
-
 # Download and extract WordPress
-RUN wget https://wordpress.org/latest.tar.gz && \
+RUN mkdir -p /var/www/html && \
+    chown -R www-data:www-data /var/www/html && \
+    wget https://wordpress.org/latest.tar.gz && \
     tar xfz latest.tar.gz --strip-components=1 -C /var/www/html && \
     rm latest.tar.gz
 
-# Copy initialization script
+COPY conf/wp-config.php /var/www/html/wp-config.php
 COPY tools/init.sh /usr/local/bin/init.sh
 RUN chmod +x /usr/local/bin/init.sh
 

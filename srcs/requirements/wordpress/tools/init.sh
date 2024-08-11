@@ -1,16 +1,10 @@
 #!/bin/sh
 
-echo "Setting up MariaDB..."
+# Set permissions
+chown -R www-data:www-data /var/www/html
+chmod 755 /var/www/html
 
-# Create necessary directories
-mkdir -p /run/mysqld
-chown -R mysql:mysql /run/mysqld
-chown -R mysql:mysql /var/lib/mysql
-
-# Copy the SQL script to the appropriate directory
-cp /docker-entrypoint-initdb.d/init.sql /var/lib/mysql/init.sql
-
-# Run the MariaDB server with the initialization script
-echo "Starting MariaDB..."
-mariadbd --init-file=/var/lib/mysql/init.sql
+# Start PHP-FPM
+echo "Starting PHP-FPM"
+exec php-fpm7.4 -F
 

@@ -5,8 +5,9 @@ FROM debian:bullseye
 RUN set -eux; \
         apt-get update; \
         DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \ 
-        nginx openssl
-RUN	apt-get clean && rm -rf /var/lib/apt/lists/*
+        nginx openssl && \
+        apt-get clean && \
+        rm -rf /var/lib/apt/lists/*
 
 # Copy file configuration NGINX
 COPY conf/nginx.conf /etc/nginx/nginx.conf

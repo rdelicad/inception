@@ -13,9 +13,6 @@ RUN set -eux; \
     && apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-# Copy PHP-FPM configuration
-COPY conf/www.conf /etc/php/7.4/fpm/pool.d/www.conf
-
 # Download and extract WordPress
 RUN mkdir -p /var/www/html && \
     chown -R www-data:www-data /var/www/html && \

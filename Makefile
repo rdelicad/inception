@@ -33,7 +33,7 @@ exec_wordpress:
 	docker exec -it wordpress_container /bin/bash
 
 exec_mariadb:
-	docker exec -it mariadb_container /bin/bash
+	docker exec -it db_container /bin/bash
 
 logs:
 	$(COMPOSE) -f $(DC_FILE) logs -f

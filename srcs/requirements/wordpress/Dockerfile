@@ -9,6 +9,7 @@ RUN set -eux; \
     php-mysql \
     wget \
     unzip \
+    mariadb-client \
     ca-certificates \
     && apt-get clean && \
     rm -rf /var/lib/apt/lists/*

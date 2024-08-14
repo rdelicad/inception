@@ -7,11 +7,15 @@ RUN set -eux; \
     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
     php-fpm \
     php-mysql \
+    net-tools \
     wget \
     unzip \
     ca-certificates \
     && apt-get clean && \
     rm -rf /var/lib/apt/lists/*
+
+# Copy PHP-FPM configuration
+COPY conf/www.conf /etc/php/7.4/fpm/pool.d/www.conf
 
 # Download and extract WordPress
 RUN mkdir -p /var/www/html && \

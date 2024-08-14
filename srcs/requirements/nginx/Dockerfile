@@ -5,7 +5,7 @@ FROM debian:bullseye
 RUN set -eux; \
         apt-get update; \
         DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \ 
-        nginx openssl && \
+        nginx openssl curl && \
         apt-get clean && \
         rm -rf /var/lib/apt/lists/*
 

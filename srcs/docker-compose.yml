@@ -1,4 +1,32 @@
 services:
+
+  mariadb:
+    build:
+      context: ./requirements/mariadb
+    container_name: db_container
+    env_file:
+      - .env
+    volumes:
+      - mariadb_vol:/var/lib/mysql
+    networks:
+      - webnet
+    restart: always
+    expose:
+      - "3306"
+
+  wordpress:
+    build:
+      context: ./requirements/wordpress
+    container_name: wordpress_container
+    env_file:
+      - .env
+    volumes:
+      - wordpress_vol:/var/www/html
+    depends_on:
+      - mariadb
+    networks:
+      - webnet
+
   nginx:
     build:
       context: ./requirements/nginx
@@ -14,33 +42,6 @@ services:
     depends_on:
       - wordpress
     restart: always
-
-  wordpress:
-    build:
-      context: ./requirements/wordpress
-    container_name: wordpress_container
-    env_file:
-      - .env
-    volumes:
-      - wordpress_vol:/var/www/html
-    depends_on:
-      - mariadb
-    networks:
-      - webnet
-
-  mariadb:
-    build:
-      context: ./requirements/mariadb
-    container_name: db_container
-    env_file:
-      - .env
-    volumes:
-      - mariadb_vol:/var/lib/mysql
-    networks:
-      - webnet
-    restart: always
-    expose:
-      - "3306"
 
 volumes:
   wordpress_vol:

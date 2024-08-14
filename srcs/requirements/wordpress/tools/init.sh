@@ -35,10 +35,10 @@ wp core install --allow-root --url=${WP_URL} --title=${WP_TITLE} \
 
 wp user create --allow-root ${WP_USER} ${WP_USER_EMAIL} --user_pass=${WP_USER_PASS} --path=/var/www/html/wordpress --url=${WP_URL}
 
-wp theme install twentytwenty --activate --allow-root
-cp /var/www/html/inception_page.html /var/www/html/wordpress/wp-content/themes/twentytwenty/
-cd /var/www/html/wordpress/wp-content/themes/twentytwenty/
-wp post create --post_type=page --post_title='Inception Page' --post_content="$(cat /var/www/html/inception_page.html)" --post_status=publish --allow-root
+wp theme install astra --activate --allow-root
+cp /var/www/html/inception_page.html /var/www/html/wordpress/wp-content/themes/astra/
+cd /var/www/html/wordpress/wp-content/themes/astra/
+wp post create --post_type=page --post_title='Inception' --post_content="$(cat /var/www/html/wordpress/wp-content/themes/astra/inception_page.html)" --post_status=publish --allow-root
 
 # Iniciar PHP-FPM
 exec php-fpm7.4 -F

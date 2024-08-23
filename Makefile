@@ -6,8 +6,10 @@ DC_FILE = srcs/docker-compose.yml
 all: up
 
 up:
-	mkdir -p /home/$(USER)/data/wordpress
-	mkdir -p /home/$(USER)/data/mariadb
+	mkdir -p /home/rdelicad/data/wordpress
+	mkdir -p /home/rdelicad/data/mariadb
+	chown -R rdelicad:rdelicad /home/rdelicad/data/wordpress/ 
+	chown -R rdelicad:rdelicad /home/rdelicad/data/mariadb
 	$(COMPOSE) -f $(DC_FILE) up -d --build
 
 down:
@@ -21,19 +23,18 @@ clean:
 	docker system prune -af
 
 fclean: clean
-	rm -rf /home/$(USER)/data/mariadb
-	rm -rf /home/$(USER)/data/wordpress
+	rm -rf /home/rdelicad/data/
 
 re: fclean all
 
-exec_nginx:
-	docker exec -it nginx_container /bin/bash
+nginx:
+	docker exec -it nginx /bin/bash
 
-exec_wordpress:
-	docker exec -it wordpress_container /bin/bash
+wordpress:
+	docker exec -it wordpress /bin/bash
 
-exec_mariadb:
-	docker exec -it db_container /bin/bash
+mariadb:
+	docker exec -it mariadb /bin/bash
 
 logs:
 	$(COMPOSE) -f $(DC_FILE) logs -f

@@ -17,28 +17,37 @@ sed -i 's#listen = /run/php/php7.4-fpm.sock#listen = 0.0.0.0:9000#g' /etc/php/7.
 # Copiar y configurar wp-config.php
 cp /var/www/html/wordpress/wp-config-sample.php /var/www/html/wordpress/wp-config.php
 
-sed -i "s/database_name_here/${DB_NAME}/" /var/www/html/wordpress/wp-config.php
-sed -i "s/username_here/${DB_USER}/" /var/www/html/wordpress/wp-config.php
-sed -i "s/password_here/${DB_USER_PASS}/" /var/www/html/wordpress/wp-config.php
-sed -i "s/put your unique phrase here/${WP_SALT}/" /var/www/html/wordpress/wp-config.php
-sed -i "s/localhost/mariadb:3306/" /var/www/html/wordpress/wp-config.php
+# Configurar wp-config.php (en esta etapa la conexión con la base de datos no se configurará)
+# sed -i "s/database_name_here/${DB_NAME}/" /var/www/html/wordpress/wp-config.php
+# sed -i "s/username_here/${DB_USER}/" /var/www/html/wordpress/wp-config.php
+# sed -i "s/password_here/${DB_USER_PASS}/" /var/www/html/wordpress/wp-config.php
+# sed -i "s/put your unique phrase here/${WP_SALT}/" /var/www/html/wordpress/wp-config.php
+# sed -i "s/localhost/mariadb:3306/" /var/www/html/wordpress/wp-config.php
 
 # Descargar y configurar WP-CLI
 wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
 chmod +x wp-cli.phar
 mv wp-cli.phar /usr/local/bin/wp
 
-# Instalar y configurar WordPress
-wp core install --allow-root --url=${WP_URL} --title=${WP_TITLE} \
-    --admin_user=${WP_ADMIN} --admin_password=${WP_ADMIN_PASS} \
-    --admin_email=${WP_ADMIN_EMAIL} --skip-email --path=/var/www/html/wordpress
+# Instalar y configurar WordPress (sin la base de datos, esta parte se debe realizar más adelante)
+# wp core install --allow-root --url=${WP_URL} --title="WeLcOmEtOmYbLoG" \
+#    --admin_user=${WP_ADMIN} --admin_password=${WP_ADMIN_PASS} \
+#    --admin_email=${WP_ADMIN_EMAIL} --skip-email --path=/var/www/html/wordpress
 
-wp user create --allow-root ${WP_USER} ${WP_USER_EMAIL} --user_pass=${WP_USER_PASS} --path=/var/www/html/wordpress --url=${WP_URL}
+# wp user create --allow-root ${WP_USER} ${WP_USER_EMAIL} --user_pass=${WP_USER_PASS} \
+#    --path=/var/www/html/wordpress --url=${WP_URL}
 
-wp theme install astra --activate --allow-root
-cp /var/www/html/inception_page.html /var/www/html/wordpress/wp-content/themes/astra/
-cd /var/www/html/wordpress/wp-content/themes/astra/
-wp post create --post_type=page --post_title='Inception' --post_content="$(cat /var/www/html/wordpress/wp-content/themes/astra/inception_page.html)" --post_status=publish --allow-root
+# wp theme install twentytwenty --activate --allow-root --path=/var/www/html/wordpress
+
+# Copiar y crear contenido
+cp /var/www/html/inception_page.html /var/www/html/wordpress/wp-content/themes/twentytwentyfour/
+cd /var/www/html/wordpress/wp-content/themes/twentytwentyfour/
+# wp post create --post_type=page --post_title='Inception Page' \
+#    --post_content="$(cat /var/www/html/inception_page.html)" --post_status=publish --allow-root --path=/var/www/html/wordpress
+
+# Ajustar permisos después de instalación
+chown -R www-data:www-data /var/www/html/wordpress
+chmod -R 755 /var/www/html/wordpress
 
 # Iniciar PHP-FPM
 exec php-fpm7.4 -F

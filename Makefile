@@ -8,8 +8,6 @@ all: up
 up:
 	mkdir -p /home/rdelicad/data/wordpress
 	mkdir -p /home/rdelicad/data/mariadb
-	chown -R rdelicad:rdelicad /home/rdelicad/data/wordpress/ 
-	chown -R rdelicad:rdelicad /home/rdelicad/data/mariadb
 	$(COMPOSE) -f $(DC_FILE) up -d --build
 
 down:

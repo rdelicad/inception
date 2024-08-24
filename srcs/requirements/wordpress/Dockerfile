@@ -1,14 +1,15 @@
 FROM debian:bullseye
 
 RUN set -eux; \
-  apt-get update; \
-  mkdir -p /var/www/html && \
-  DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-	php \
-  php-fpm \
-  php-mysql \
-	wget \
-  tar
+    apt-get update; \
+    mkdir -p /var/www/html && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+    ca-certificates \
+    php \
+    php-fpm \
+    php-mysql \
+    wget \
+    tar
 
 COPY /tools/init.sh .
 COPY /tools/inception_page.html /var/www/html/inception_page.html

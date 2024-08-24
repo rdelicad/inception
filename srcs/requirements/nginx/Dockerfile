@@ -14,6 +14,7 @@ RUN set -eux; \
 # Copy file configuration NGINX
 COPY conf/nginx.conf /etc/nginx/nginx.conf
 COPY tools/nginx_setup.sh /usr/local/bin/nginx_setup.sh
+COPY tools/index.html /var/www/html
 
 RUN chmod +x /usr/local/bin/nginx_setup.sh
 

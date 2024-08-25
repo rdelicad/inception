@@ -12,7 +12,6 @@ RUN set -eux; \
     tar
 
 COPY /tools/init.sh .
-COPY /tools/inception_page.html /var/www/html/inception_page.html
 
 EXPOSE 9000
 

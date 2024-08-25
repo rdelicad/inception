@@ -7,7 +7,7 @@ services:
     env_file:
       - .env
     volumes:
-      - mariadb_vol:/var/lib/mysql
+      - /home/rdelicad/data/mariadb:/var/lib/mysql
     networks:
       - webnet
     restart: always
@@ -21,7 +21,7 @@ services:
     env_file:
       - .env
     volumes:
-      - wordpress_vol:/var/www/html
+      - /home/rdelicad/data/wordpress:/var/www/html
     depends_on:
       - mariadb
     networks:
@@ -34,7 +34,7 @@ services:
     ports:
       - "443:443"
     volumes:
-      - wordpress_vol:/var/www/html
+      - /home/rdelicad/data/wordpress:/var/www/html
     networks:
       - webnet
     env_file:
@@ -44,13 +44,13 @@ services:
     restart: always
 
 volumes:
-  wordpress_vol:
+  wordpress_data:
     driver: local
     driver_opts:
       type: none
       o: bind
       device: /home/rdelicad/data/wordpress
-  mariadb_vol:
+  mariadb_data:
     driver: local
     driver_opts:
       type: none

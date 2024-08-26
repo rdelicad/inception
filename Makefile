@@ -30,6 +30,12 @@ wordpress:
 mariadb:
 	docker exec -it mariadb /bin/bash
 
+adminer:
+	docker exec -it adminer /bin/bash
+
+ftp: 
+	docker exec -ti ftp /bin/bash
+
 logs:
 	$(COMPOSE) -f $(DC_FILE) logs -f
 

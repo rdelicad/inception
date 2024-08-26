@@ -10,3 +10,5 @@ docker-compose.override.yml
 tmp/
 temp/
 
+# Ignorar archivo ENV
+.env

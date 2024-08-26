@@ -35,3 +35,6 @@ rm -rf ./srcs/requirements/nginx/ssl
 
 # Eliminar volumenes a fondo
 docker volume rm $(docker volume ls -q)
+
+# Eliminar carpeta data
+rm -rf /home/rdelicad/data

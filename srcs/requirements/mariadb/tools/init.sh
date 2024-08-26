@@ -12,7 +12,7 @@ GRANT ALL PRIVILEGES ON *.* TO '${DB_USER}'@'%';
 FLUSH PRIVILEGES;
 EOF
 
-chmod 777 /var/lib/mysql/init.sql
+chmod +x /var/lib/mysql/init.sql
 
 echo "Starting MariaDB..."
 exec mysqld --init-file=/var/lib/mysql/init.sql --bind-address=0.0.0.0

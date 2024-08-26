@@ -31,8 +31,5 @@ wp user create --allow-root ${WP_USER} ${WP_USER_EMAIL} --user_pass=${WP_USER_PA
 
 wp theme install twentytwenty --activate --allow-root --path=/var/www/html/wordpress
 
-chown -R www-data:www-data /var/www/html/wordpress
-chmod -R 755 /var/www/html/wordpress
-
 exec php-fpm7.4 -F
 

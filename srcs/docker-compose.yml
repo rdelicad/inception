@@ -43,6 +43,17 @@ services:
       - wordpress
     restart: always
 
+  adminer:
+    build:
+      context: ./requirements/bonus/adminer
+    container_name: adminer
+    volumes:
+      - adminer_data:/var/www/html
+    ports:
+      - "8080:8080"
+    networks:
+      - webnet
+
 volumes:
   wordpress_data:
     driver: local
@@ -56,6 +67,12 @@ volumes:
       type: none
       o: bind
       device: /home/rdelicad/data/mariadb
+  adminer_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/rdelicad/data/adminer
 
 networks:
   webnet:

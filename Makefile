@@ -6,6 +6,7 @@ all: up
 up:
 	mkdir -p /home/rdelicad/data/wordpress
 	mkdir -p /home/rdelicad/data/mariadb
+	mkdir -p /home/rdelicad/data/adminer
 	$(COMPOSE) -f $(DC_FILE) up -d --build
 
 down:

@@ -89,9 +89,13 @@ services:
     volumenes:
       - /var/run/docker.sock:/var/run/docker.sock
       - portainer_data:/data
+      - /tools/init.sh:/usr/local/bin/init.sh
     networks:
       - webnet
+    end_files:
+      - .env
     restart: unless-stopped
+    entrypoint: ["/bin/sh", "/usr/local/bin/init.sh"]
 
 volumes:
   wordpress_data:

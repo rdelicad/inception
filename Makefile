@@ -7,6 +7,7 @@ up:
 	mkdir -p /home/rdelicad/data/wordpress
 	mkdir -p /home/rdelicad/data/mariadb
 	mkdir -p /home/rdelicad/data/adminer
+	mkdir -p /home/rdelicad/data/redis
 	$(COMPOSE) -f $(DC_FILE) up -d --build
 
 down:
@@ -34,10 +35,13 @@ adminer:
 	docker exec -it adminer /bin/bash
 
 ftp: 
-	docker exec -ti ftp /bin/bash
+	docker exec -it ftp /bin/bash
+
+redis:
+	docker exec -it redis /bin/bash
 
 logs:
 	$(COMPOSE) -f $(DC_FILE) logs -f
 
-.PHONY: all up down clean fclean re nginx wordpress mariadb logs
+.PHONY: all up down clean fclean re nginx wordpress mariadb logs adminer ftp redis
 

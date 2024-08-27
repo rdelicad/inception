@@ -68,6 +68,18 @@ services:
       - webnet
     restart: always
 
+  redis:
+    build:
+      context: ./requirements/bonus/redis
+    container_name: redis
+    ports:
+      - 6379
+    volumes:
+      - redis_data:/data
+    networks:
+      - webnet
+    restart: always
+
 volumes:
   wordpress_data:
     driver: local
@@ -87,6 +99,12 @@ volumes:
       type: none
       o: bind
       device: /home/rdelicad/data/adminer
+  redis_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/rdelicad/data/redis
 
 networks:
   webnet:

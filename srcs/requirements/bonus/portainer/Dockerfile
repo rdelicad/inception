@@ -1,6 +1,8 @@
 # Use Debian Bullseye as base image
 FROM debian:bullseye
 
+WORKDIR /usr/src/app
+
 # Install dependencies
 RUN set -eux; \
     apt-get update; \
@@ -17,14 +19,14 @@ RUN curl -L https://github.com/portainer/portainer/releases/download/2.21.0/port
     && rm portainer.tar.gz
 
 # Copy initialization script
-COPY tools/init.sh /usr/local/bin/init.sh
+COPY tools/init.sh /usr/src/app/init.sh
 
 # Make the initialization script executable
-RUN chmod +x /usr/local/bin/init.sh
+RUN chmod +x /usr/src/app/init.sh
 
 # Expose Portainer port
 EXPOSE 9000
 
 # Run the initialization script and then Portainer
-ENTRYPOINT ["/bin/sh", "-c", "/usr/local/bin/init.sh && exec portainer --no-ssl"]
+ENTRYPOINT ["/bin/sh", "-c", "/usr/src/app/init.sh && exec portainer --no-ssl"]
 

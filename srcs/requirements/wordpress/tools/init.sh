@@ -26,6 +26,16 @@ wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
 chmod +x wp-cli.phar
 mv wp-cli.phar /usr/local/bin/wp
 
+# Configure WordPress
+wp core install --allow-root --url=${WP_URL} --title="Inception" \
+   --admin_user=${WP_ADMIN} --admin_password=${WP_ADMIN_PASS} \
+   --admin_email=${WP_ADMIN_EMAIL} --skip-email --path=/var/www/html/wordpress
+
+wp user create --allow-root ${WP_USER} ${WP_USER_EMAIL} --user_pass=${WP_USER_PASS} \
+   --path=/var/www/html/wordpress --url=${WP_URL}
+
+wp theme install twentytwenty --activate --allow-root --path=/var/www/html/wordpress
+
 # ************ BONUS REDIS *****************
 
 # Install and activate the Redis Object Cache plugin
@@ -38,19 +48,10 @@ sed -i "/\/\* That's all, stop editing! Happy publishing. \*\//i \
 define('WP_REDIS_HOST', 'redis');\n\
 define('WP_REDIS_PORT', 6379);" /var/www/html/wordpress/wp-config.php
 
-# ************** FIN BONUS *******************
-
-# Configure WordPress
-wp core install --allow-root --url=${WP_URL} --title="Inception" \
-   --admin_user=${WP_ADMIN} --admin_password=${WP_ADMIN_PASS} \
-   --admin_email=${WP_ADMIN_EMAIL} --skip-email --path=/var/www/html/wordpress
-
-wp user create --allow-root ${WP_USER} ${WP_USER_EMAIL} --user_pass=${WP_USER_PASS} \
-   --path=/var/www/html/wordpress --url=${WP_URL}
-
-wp theme install twentytwenty --activate --allow-root --path=/var/www/html/wordpress
-
+sleep 5
 wp redis enable --allow-root --path=/var/www/html/wordpress
+
+# ************** FIN BONUS *******************
 
 # Start PHP-FPM
 exec php-fpm7.4 -F

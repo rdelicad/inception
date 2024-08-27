@@ -31,7 +31,7 @@ pasv_min_port=40000
 pasv_max_port=40005
 userlist_file=/etc/vsftpd.userlist
 secure_chroot_dir=/var/run/vsftpd/empty
-local_root=/var/ftp
+local_root=/var/ftp/wordpress/wp-content
 EOL
 
 # Add the user to the vsftpd userlist
@@ -40,9 +40,8 @@ echo "$FTP_USER" >> /etc/vsftpd.userlist
 
 # Create the /var/files_ftp directory and set permissions
 echo "Creating /var/files_ftp directory"
-mkdir -p /var/ftp/files_ftp
-chown -R rdelicad:rdelicad /var/ftp/files_ftp
-chmos -R 755 /var/ftp/files_ftp
+chown -R rdelicad:rdelicad /var/ftp/wordpress/wp-content
+chmos -R 755 /var/ftp/wordpress/wp-content
 
 # Start vsftpd in the foreground
 echo "Starting vsftpd"

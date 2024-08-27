@@ -41,8 +41,11 @@ ftp:
 redis:
 	docker exec -it redis /bin/bash
 
+portainer:
+	docker exec -it redis /bin/bash
+
 logs:
 	$(COMPOSE) -f $(DC_FILE) logs -f
 
-.PHONY: all up down clean fclean re nginx wordpress mariadb logs adminer ftp redis
+.PHONY: all up down clean fclean re nginx wordpress mariadb logs adminer ftp redis portainer
 

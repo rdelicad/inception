@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # Wait for Portainer to start
 sleep 20
@@ -21,4 +21,7 @@ fi
 
 # Set Portainer to use the admin credentials
 curl -s -X PUT "$PORTAINER_URL/settings" -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" -d "{\"Authentication\":\"db\",\"JWT\":\"$TOKEN\"}"
+
+# Run Portainer
+exec portainer --no-ssl
 

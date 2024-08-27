@@ -1,23 +1,30 @@
+# Use Debian Bullseye as base image
 FROM debian:bullseye
 
-# Set environment variable for the Portainer version
-ENV PORTAINER_VERSION=2.18.4
-
-RUN apt-get update && \
-    apt-get install -y \
+# Install dependencies
+RUN set -eux; \
+    apt-get update; \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
     curl \
-    ca-certificates && \
-    apt-get clean && rm -rf /var/lib/apt/lists/*
+    ca-certificates \
+    jq \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
-# Create a directory to hold Portainer's persistent data
-RUN mkdir -p /data
+# Download and install Portainer
+RUN curl -L https://github.com/portainer/portainer/releases/download/2.21.0/portainer-2.21.0-linux-amd64.tar.gz -o portainer.tar.gz \
+    && tar -xzf portainer.tar.gz --strip-components=1 -C /usr/local/bin \
+    && rm portainer.tar.gz
 
-# Download Portainer, extract it, and place it in the /usr/local/bin directory
-# This makes Portainer executable within the container
-RUN curl -L https://github.com/portainer/portainer/releases/download/${PORTAINER_VERSION}/portainer-${PORTAINER_VERSION}-linux-amd64.tar.gz | tar -xz -C /usr/local/bin --strip-components=1
+# Copy initialization script
+COPY tools/init.sh /usr/local/bin/init.sh
 
+# Make the initialization script executable
+RUN chmod +x /usr/local/bin/init.sh
+
+# Expose Portainer port
 EXPOSE 9000
 
-# Define the default command to run Portainer with data stored in the /data directory
-CMD ["portainer", "--no-auth", "--data", "/data"]
+# Run the initialization script and then Portainer
+ENTRYPOINT ["/bin/sh", "-c", "/usr/local/bin/init.sh && exec portainer --no-ssl"]
 

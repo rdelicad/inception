@@ -8,6 +8,7 @@ up:
 	mkdir -p /home/rdelicad/data/mariadb
 	mkdir -p /home/rdelicad/data/adminer
 	mkdir -p /home/rdelicad/data/redis
+	mkdir -p /home/rdelicad/data/portainer
 	$(COMPOSE) -f $(DC_FILE) up -d --build
 
 down:
